@@ -1,25 +1,86 @@
-{
- "cells": [
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "# RF Análisis Virtual — Mini Penal A · UP N°8 Piñero (Sionna RT)\n\n**Proyecto**: RFQ Motorola · CP 01/26 · Santa Fe — Concurso Público N°01/26\n**Objetivo**: Ejecutar ray-tracing de alta fidelidad sobre la geometría 3D del\nMini Penal A para caracterizar la cobertura celular existente como base del\ndiseño del sistema integral de inhibición.\n\n> **VERSIÓN**: v1.0 (24-abr-2026)\n>\n> **Basado en**: `RF_ANALISIS_FASE4_v4.12.ipynb` (Recreo) — pipeline probado con\n> MAE 2.90 dB NLOS contra campaña IDR. La calibración se transfiere a Piñero\n> bajo premisas sistémicas 3GPP/ENACOM/ITU-R (ver `docs/CALIBRACION_TRANSFERIDA_DE_RECREO.md`).\n\n## Input\nRepo GitHub: https://github.com/MollytheCatLoca/RFQ_MOTOROLA_IMSI\nCarpeta in-runtime: `/content/repo/pipeline_rf/inputs/`\n  - `antenas_pinero_enriched.csv` — 156 antenas OpenCellID (radio 5 km)\n  - `UP9_RF_manifest.json` — manifest 2724 objetos con bbox + material RF\n  - `parametros_calibrados.py` — constantes transferidas de Recreo\n  - `UP9_unidad_alto_perfil.obj` — geometría Blender v18 (referencia)\n\n## Output (storage efímero Colab · bajar con files.download)\n`/content/outputs/`:\n  - `heatmaps_sionna_pinero.png` — 6 mapas (3 bandas × 2 alturas)\n  - `mediciones_sionna_coverage_pinero.csv` — raster espacial completo\n  - `sionna_stats_pinero.json` — agregados por banda/altura\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 1 · Setup: Install Sionna + dependencies"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+#!/usr/bin/env python3
+"""
+Genera RF_ANALISIS_PINERO.ipynb basándose en el notebook v4.12 probado de Recreo.
+
+Cambios sobre v4.12:
+  - Install: reemplaza pip install (sin pinning roto) — idéntico a v4.12
+  - Cell mount: GitHub clone en vez de Google Drive mount
+  - Origen coord: UP8 Piñero (-33.0927, -60.8005) en vez de UP9 Recreo
+  - Buildings: derivados del manifest RF Piñero (UP9_RF_manifest.json) filtrando
+    por bbox volume ≥ 50 m³ (objetos estructurales grandes, no detalle)
+  - Antenas: antenas_pinero_enriched.csv con co-ubicación UMTS/LTE
+  - Validación IDR: deshabilitada (Piñero no tiene campaña local) — tabla de
+    stats internos en su lugar
+
+Uso:
+    python3 build_pinero_notebook.py
+"""
+from __future__ import annotations
+import json
+from pathlib import Path
+
+HERE = Path(__file__).parent
+V412_PATH = Path('/Users/maxkeczeli/Proyects/RFQ_Motorola_IMSI/RFQ_Recreo/04_ejecucion/auxiliares/analisis_espectro_rf/04_export/colab_notebook/RF_ANALISIS_FASE4_v4.12.ipynb')
+OUT_PATH = HERE.parent / 'notebook' / 'RF_ANALISIS_PINERO.ipynb'
+
+
+def md(source):
+    return {"cell_type": "markdown", "metadata": {}, "source": source if isinstance(source, list) else [source]}
+
+
+def code(source):
+    return {"cell_type": "code", "metadata": {}, "outputs": [], "execution_count": None,
+            "source": source if isinstance(source, list) else [source]}
+
+
+# Cargar v4.12 para reusar las celdas que NO cambian
+v412 = json.loads(V412_PATH.read_text())
+
+# Helper para extraer celda por índice
+def get(idx):
+    return v412['cells'][idx]
+
+
+cells = []
+
+# ============================================================================
+# Título
+# ============================================================================
+cells.append(md(
+    """# RF Análisis Virtual — Mini Penal A · UP N°8 Piñero (Sionna RT)
+
+**Proyecto**: RFQ Motorola · CP 01/26 · Santa Fe — Concurso Público N°01/26
+**Objetivo**: Ejecutar ray-tracing de alta fidelidad sobre la geometría 3D del
+Mini Penal A para caracterizar la cobertura celular existente como base del
+diseño del sistema integral de inhibición.
+
+> **VERSIÓN**: v1.0 (24-abr-2026)
+>
+> **Basado en**: `RF_ANALISIS_FASE4_v4.12.ipynb` (Recreo) — pipeline probado con
+> MAE 2.90 dB NLOS contra campaña IDR. La calibración se transfiere a Piñero
+> bajo premisas sistémicas 3GPP/ENACOM/ITU-R (ver `docs/CALIBRACION_TRANSFERIDA_DE_RECREO.md`).
+
+## Input
+Repo GitHub: https://github.com/MollytheCatLoca/RFQ_MOTOROLA_IMSI
+Carpeta in-runtime: `/content/repo/pipeline_rf/inputs/`
+  - `antenas_pinero_enriched.csv` — 156 antenas OpenCellID (radio 5 km)
+  - `UP9_RF_manifest.json` — manifest 2724 objetos con bbox + material RF
+  - `parametros_calibrados.py` — constantes transferidas de Recreo
+  - `UP9_unidad_alto_perfil.obj` — geometría Blender v18 (referencia)
+
+## Output (storage efímero Colab · bajar con files.download)
+`/content/outputs/`:
+  - `heatmaps_sionna_pinero.png` — 6 mapas (3 bandas × 2 alturas)
+  - `mediciones_sionna_coverage_pinero.csv` — raster espacial completo
+  - `sionna_stats_pinero.json` — agregados por banda/altura
+"""
+))
+
+# ============================================================================
+# Cell 1 · Install (COPIA EXACTA de v4.12 Cell 2)
+# ============================================================================
+cells.append(md("## 1 · Setup: Install Sionna + dependencies"))
+cells.append(code([
     "# ============================================================================\n",
     "# NOTEBOOK VERSION: v1.0 (24-abr-2026) · Piñero · basado en Recreo v4.12\n",
     "# API Sionna RT 1.x probada · install compatible con Colab Python 3.12\n",
@@ -62,21 +123,13 @@
     "    print('\\nmapbox_earcut OK — trimesh podrá triangular polígonos')\n",
     "except ImportError:\n",
     "    print('\\n⚠️  mapbox_earcut NO disponible — celda 5 va a skipear edificios!')"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 2 · Clonar repo desde GitHub + paths"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 2 · GitHub clone + paths (REEMPLAZA el Drive mount)
+# ============================================================================
+cells.append(md("## 2 · Clonar repo desde GitHub + paths"))
+cells.append(code([
     "import os, json, math\n",
     "from pathlib import Path\n",
     "import numpy as np\n",
@@ -102,21 +155,20 @@
     "print('Archivos disponibles:')\n",
     "for f in sorted(DRIVE_BASE.glob('*')):\n",
     "    print(f'  {f.name}  ({f.stat().st_size // 1024} KB)')"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 3 · Load datasets Piñero\n\nA diferencia de Recreo, Piñero no tiene:\n- `up9_buildings.json` → derivamos edificios del manifest RF (bbox vol ≥ 50 m³)\n- `mediciones_raw.csv` (IDR) → no hay campaña local\n- `mediciones_sinteticas_{floor,altura}.csv` → no aplica, Piñero usa ray-tracing directo\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 3 · Load datasets (ADAPTADO para Piñero)
+# ============================================================================
+cells.append(md(
+    "## 3 · Load datasets Piñero\n"
+    "\n"
+    "A diferencia de Recreo, Piñero no tiene:\n"
+    "- `up9_buildings.json` → derivamos edificios del manifest RF (bbox vol ≥ 50 m³)\n"
+    "- `mediciones_raw.csv` (IDR) → no hay campaña local\n"
+    "- `mediciones_sinteticas_{floor,altura}.csv` → no aplica, Piñero usa ray-tracing directo\n"
+))
+cells.append(code([
     "# Manifest RF Piñero (2724 objetos con bbox + material)\n",
     "with open(DRIVE_BASE / 'UP9_RF_manifest.json') as f:\n",
     "    MANIFEST = json.load(f)\n",
@@ -133,21 +185,18 @@
     "print('\\nPor tecnología:')\n",
     "print(ANTENAS['radio'].value_counts())\n",
     "ANTENAS.head(3)"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 4 · Coordenadas locales (ENU meters) — origen UP8 Piñero\n\nSionna trabaja en coordenadas cartesianas locales (metros). Convertimos lat/lon al sistema ENU (East-North-Up) con origen en el centro del Mini Penal A Piñero.\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 4 · Coordenadas ENU (ORIGEN UP8 PIÑERO)
+# ============================================================================
+cells.append(md(
+    "## 4 · Coordenadas locales (ENU meters) — origen UP8 Piñero\n"
+    "\n"
+    "Sionna trabaja en coordenadas cartesianas locales (metros). Convertimos lat/lon al sistema ENU "
+    "(East-North-Up) con origen en el centro del Mini Penal A Piñero.\n"
+))
+cells.append(code([
     "# Centro UP8 Piñero (centroide Complejo Penitenciario)\n",
     "ORIGIN_LAT = -33.09270383406942\n",
     "ORIGIN_LON = -60.80047176165265\n",
@@ -171,21 +220,21 @@
     "for _, row in top3.iterrows():\n",
     "    e, n, _ = to_enu(row['lat'], row['lon'])\n",
     "    print(f'  {row[\"operator\"]:10s} {row[\"radio\"]:4s}: E={e:+7.1f}m  N={n:+7.1f}m  (d={row[\"distance_km_to_up8\"]:.2f} km)')"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 5 · Derivar edificios estructurales del manifest RF\n\nEl manifest tiene 2724 objetos incluyendo detalles (ventanas, puertas, decoraciones). Filtramos por **volumen de bbox ≥ 50 m³** para quedarnos con objetos estructurales grandes (pabellones, muros perimetrales, torres, admin).\n\nLos footprints ya están en coordenadas locales (metros) del compound — no hace falta convertir.\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 5 · Derivar edificios desde manifest (REEMPLAZO de buildings.json)
+# ============================================================================
+cells.append(md(
+    "## 5 · Derivar edificios estructurales del manifest RF\n"
+    "\n"
+    "El manifest tiene 2724 objetos incluyendo detalles (ventanas, puertas, decoraciones). "
+    "Filtramos por **volumen de bbox ≥ 50 m³** para quedarnos con objetos estructurales grandes "
+    "(pabellones, muros perimetrales, torres, admin).\n"
+    "\n"
+    "Los footprints ya están en coordenadas locales (metros) del compound — no hace falta convertir.\n"
+))
+cells.append(code([
     "# Filtrar objetos estructurales por volumen de bbox\n",
     "MIN_VOLUME_M3 = 50.0   # umbral de volumen mínimo\n",
     "\n",
@@ -222,21 +271,20 @@
     "    print(f'  {o[\"name\"][:40]:40s} vol={o[\"vol_m3\"]:8.0f} m³  h={o[\"altura_m\"]:5.1f} m  ({o[\"material\"]})')\n",
     "\n",
     "BUILDINGS = structural_objects"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 6 · Build Mitsuba XML scene\n\n**Approach simplificado respecto a Recreo**: en vez de extruir footprints a PLYs, usamos el OBJ Blender v18 completo como una sola shape. Sionna RT 1.x lo acepta directamente.\n\nLos materiales ITU se sustituyen en Cell 7 después de cargar la escena (patrón v4.12)."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 6 · Build scene Mitsuba (SIMPLIFICADO vs Recreo — usamos OBJ directo)
+# ============================================================================
+cells.append(md(
+    "## 6 · Build Mitsuba XML scene\n"
+    "\n"
+    "**Approach simplificado respecto a Recreo**: en vez de extruir footprints a PLYs, usamos el OBJ "
+    "Blender v18 completo como una sola shape. Sionna RT 1.x lo acepta directamente.\n"
+    "\n"
+    "Los materiales ITU se sustituyen en Cell 7 después de cargar la escena (patrón v4.12)."
+))
+cells.append(code([
     "SCENE_DIR = Path('/content/scene_pinero')\n",
     "SCENE_DIR.mkdir(exist_ok=True)\n",
     "\n",
@@ -272,21 +320,13 @@
     "print(f'Scene XML: {scene_xml_path}')\n",
     "print(f'OBJ copiado a: {SCENE_DIR}/geometry.obj')\n",
     "print(f'Tamaño OBJ: {(SCENE_DIR / \"geometry.obj\").stat().st_size // 1024} KB')"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 7 · Load scene in Sionna + asignar materiales broadband"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 7 · Load scene in Sionna (COPIA de v4.12 Cell 13 + 14)
+# ============================================================================
+cells.append(md("## 7 · Load scene in Sionna + asignar materiales broadband"))
+cells.append(code([
     "import sionna.rt as rt\n",
     "from sionna.rt import load_scene, Transmitter, Receiver, PlanarArray, RadioMapSolver\n",
     "\n",
@@ -304,14 +344,9 @@
     "scene.rx_array = PlanarArray(num_rows=1, num_cols=1,\n",
     "                             pattern='iso', polarization='V')\n",
     "print('✅ TX/RX arrays configurados (iso V-pol)')"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+cells.append(code([
     "# Materiales broadband (ITU-R P.2040-3 @ 1 GHz) + scattering_coefficient=0.05\n",
     "# Idéntico a v4.12 Recreo — calibrados contra IDR con MAE 2.9 dB NLOS\n",
     "from sionna.rt import RadioMaterial\n",
@@ -363,21 +398,19 @@
     "print(f'✅ {reassigned} objetos reasignados (concrete_bb scat=0.05)')\n",
     "print(f'✅ {len(removed)} ITU removidos')\n",
     "print(f'   Materiales vivos: {list(scene.radio_materials.keys())}')"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 8 · Configure transmitters (antenas telco) + carrier frequency\n\n**Co-ubicación UMTS/LTE aplicada**: el scraping OpenCellID reporta solo 14 antenas LTE en Piñero (ver F2 README). Asumimos que los eNodeB LTE AR se montan sobre la infraestructura UMTS existente — incluimos UMTS + LTE como candidatos TX para las 3 bandas prioritarias."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 8 · Configure transmitters (ADAPTADO para Piñero con co-ubicación)
+# ============================================================================
+cells.append(md(
+    "## 8 · Configure transmitters (antenas telco) + carrier frequency\n"
+    "\n"
+    "**Co-ubicación UMTS/LTE aplicada**: el scraping OpenCellID reporta solo 14 antenas LTE en "
+    "Piñero (ver F2 README). Asumimos que los eNodeB LTE AR se montan sobre la infraestructura "
+    "UMTS existente — incluimos UMTS + LTE como candidatos TX para las 3 bandas prioritarias."
+))
+cells.append(code([
     "TOP_N_ANTENNAS = 15   # por banda\n",
     "\n",
     "BAND_FREQ_MHZ = {\n",
@@ -421,21 +454,13 @@
     "for b in ['B28', 'B26', 'B41']:\n",
     "    n = configure_transmitters(b)\n",
     "    print(f'{b}: {n} transmitters @ {BAND_FREQ_MHZ[b]:.0f} MHz')"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 9 · RadioMapSolver setup + coverage bounds"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 9 · RadioMapSolver setup (COPIA de v4.12 Cell 18 + bounds adaptados)
+# ============================================================================
+cells.append(md("## 9 · RadioMapSolver setup + coverage bounds"))
+cells.append(code([
     "rm_solver = RadioMapSolver()\n",
     "\n",
     "import inspect\n",
@@ -458,21 +483,18 @@
     "CELL_SIZE_M = 2.0\n",
     "RESOLUTION = (int((e_max-e_min)/CELL_SIZE_M), int((n_max-n_min)/CELL_SIZE_M))\n",
     "print(f'Grid resolution: {RESOLUTION[0]} × {RESOLUTION[1]} cells ({RESOLUTION[0]*RESOLUTION[1]} total)')"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 10 · Test run (1 banda × 1 altura)\n\nAntes del full run (60-80 min), corremos una sola combinación con grid reducido para validar API y detectar errores temprano."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 10 · Test run (COPIA de v4.12 Cell 20)
+# ============================================================================
+cells.append(md(
+    "## 10 · Test run (1 banda × 1 altura)\n"
+    "\n"
+    "Antes del full run (60-80 min), corremos una sola combinación con grid reducido "
+    "para validar API y detectar errores temprano."
+))
+cells.append(code([
     "configure_transmitters('B28')\n",
     "try:\n",
     "    rm_test = rm_solver(\n",
@@ -499,21 +521,13 @@
     "    print('\\n--- Signature real ---')\n",
     "    print(inspect.signature(rm_solver.__call__))\n",
     "    raise"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 11 · Full run (6 maps = 3 bandas × 2 alturas · ~60-80 min)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 11 · Full run (COPIA de v4.12 Cell 22)
+# ============================================================================
+cells.append(md("## 11 · Full run (6 maps = 3 bandas × 2 alturas · ~60-80 min)"))
+cells.append(code([
     "# Configuración idéntica a v4.12 Recreo (max_depth=7, diffuse=True, 2M samples)\n",
     "BANDS_TO_COMPUTE = ['B28', 'B26', 'B41']\n",
     "Z_LEVELS = [1.5, 7.5]\n",
@@ -551,21 +565,13 @@
     "            print(f'  checkpoint save falló: {e}')\n",
     "\n",
     "print(f'\\n✅ {len(coverage_results)} corridas completadas')"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 12 · Export heatmaps + CSV por punto"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 12 · cm_to_dbm + heatmaps (COPIA de v4.12 Cell 24)
+# ============================================================================
+cells.append(md("## 12 · Export heatmaps + CSV por punto"))
+cells.append(code([
     "# cm_to_dbm idéntico a v4.12 — robusto a shapes 2D/3D\n",
     "import matplotlib.colors as mcolors\n",
     "\n",
@@ -620,14 +626,12 @@
     "plt.savefig(OUTPUT_BASE / 'heatmaps_sionna_pinero.png', dpi=150, bbox_inches='tight')\n",
     "plt.show()\n",
     "print(f'\\n✅ Heatmap guardado: {OUTPUT_BASE}/heatmaps_sionna_pinero.png')"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 13 · Export CSV (COPIA de v4.12 Cell 25)
+# ============================================================================
+cells.append(code([
     "rows = []\n",
     "for (banda, z), cm in coverage_results.items():\n",
     "    rx_dbm = cm_to_dbm(cm, EIRP_DBM)\n",
@@ -671,21 +675,17 @@
     "with open(OUTPUT_BASE / 'sionna_stats_pinero.json', 'w') as f:\n",
     "    json.dump(stats, f, indent=2)\n",
     "print(f'Stats: {OUTPUT_BASE}/sionna_stats_pinero.json')"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "## 13 · Download outputs como ZIP\n\nColab es storage efímero. Bajá el zip antes de cerrar la sesión."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "metadata": {},
-   "outputs": [],
-   "execution_count": null,
-   "source": [
+]))
+
+# ============================================================================
+# Cell 14 · Download outputs como ZIP
+# ============================================================================
+cells.append(md(
+    "## 13 · Download outputs como ZIP\n"
+    "\n"
+    "Colab es storage efímero. Bajá el zip antes de cerrar la sesión."
+))
+cells.append(code([
     "import shutil\n",
     "from google.colab import files\n",
     "\n",
@@ -695,25 +695,25 @@
     "!ls -la {OUTPUT_BASE}\n",
     "print('\\n⬇ Bajando zip...')\n",
     "files.download(zip_path)"
-   ]
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "name": "python",
-   "version": "3.12"
-  },
-  "accelerator": "GPU",
-  "colab": {
-   "provenance": [],
-   "gpuType": "T4"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
+]))
+
+
+# ============================================================================
+# Escribir notebook
+# ============================================================================
+nb = {
+    'cells': cells,
+    'metadata': {
+        'kernelspec': {'display_name': 'Python 3', 'language': 'python', 'name': 'python3'},
+        'language_info': {'name': 'python', 'version': '3.12'},
+        'accelerator': 'GPU',
+        'colab': {'provenance': [], 'gpuType': 'T4'},
+    },
+    'nbformat': 4,
+    'nbformat_minor': 5,
 }
+
+OUT_PATH.write_text(json.dumps(nb, indent=1, ensure_ascii=False))
+print(f'✅ Notebook generado: {OUT_PATH}')
+print(f'   Cells: {len(cells)}')
+print(f'   Tamaño: {OUT_PATH.stat().st_size // 1024} KB')
