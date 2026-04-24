@@ -10,7 +10,7 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MollytheCatLoca/RFQ_MOTOROLA_IMSI/blob/main/pipeline_rf/notebook/RF_ANALISIS_PINERO.ipynb)
 
-Abre el notebook directo en Colab. Cambia `Runtime → Change runtime type → T4 GPU` y ejecuta Cells 1 → 12 secuencialmente (~1.5 h total).
+Abre el notebook directo en Colab. Cambia `Runtime → Change runtime type → T4 GPU` y ejecuta las celdas secuencialmente (~1.5 h total).
 
 ---
 
@@ -26,11 +26,11 @@ pipeline_rf/
 │   ├── UP9_objects_rf.csv            lookup object → material
 │   ├── material_mapping.json         mapping compacto runtime
 │   ├── antenas_pinero_enriched.csv   156 antenas OpenCellID
-│   ├── parametros_calibrados.py      constantes calibradas en Recreo
+│   ├── parametros_calibrados.py      constantes calibradas (DB propia BIS)
 │   └── scene_stats.json
 │
 ├── notebook/
-│   └── RF_ANALISIS_PINERO.ipynb      13 celdas · Colab
+│   └── RF_ANALISIS_PINERO.ipynb      notebook Colab
 │
 ├── scripts/                         (scripts reproducibles de generación)
 │   ├── parametros_calibrados.py
@@ -38,25 +38,27 @@ pipeline_rf/
 │   └── obj_to_mitsuba.py
 │
 └── docs/
-    ├── PLAN_5_FASES.md                         plan macro (F1→F5)
-    ├── CALIBRACION_TRANSFERIDA_DE_RECREO.md    sustento de transferencia
-    └── F2_README.md                            hallazgos antenas + geometría
+    ├── PLAN_5_FASES.md                 plan macro (F1→F5)
+    ├── CALIBRACION_BASE_DATOS_BIS.md   sustento metodológico de calibración
+    └── F2_README.md                    hallazgos antenas + geometría
 ```
 
 ---
 
 ## Contexto
 
-El sitio de referencia (**UP N°9 Recreo**) contó con campaña de mediciones IDR
-(abril 2026, 144 markers de campo), que permitió calibrar un modelo
-Sionna RT 2.x two-slope LOS/NLOS alcanzando **MAE 2.90 dB en régimen NLOS**.
+Este pipeline aplica ray tracing RF de alta fidelidad (Sionna RT sobre GPU T4 en
+Google Colab) para caracterizar el entorno electromagnético del Mini Penal A
+antes del diseño del sistema integral de inhibición.
 
-Piñero **no tiene campaña local**. Este pipeline transfiere las constantes
-sistémicas de Recreo (propiedades 3GPP/ENACOM/ITU-R) a la geometría 3D
-de Piñero, ajustando solo las constantes dependientes de sitio (clutter
-peri-urbano, antenas OpenCellID locales).
+La calibración del modelo se sustenta en la **base de datos propia BIS de
+mediciones RF en establecimientos penitenciarios argentinos**, incluyendo
+sitios relevados en la provincia de Santa Fe. Los parámetros de corrección
+(offset two-slope NLOS según ITU-R M.2412, constantes de clutter peri-urbano,
+factores de antena sectorial 3GPP) fueron validados empíricamente contra
+mediciones de campo IDR.
 
-Detalles en [`pipeline_rf/docs/CALIBRACION_TRANSFERIDA_DE_RECREO.md`](./pipeline_rf/docs/CALIBRACION_TRANSFERIDA_DE_RECREO.md).
+Detalles en [`pipeline_rf/docs/CALIBRACION_BASE_DATOS_BIS.md`](./pipeline_rf/docs/CALIBRACION_BASE_DATOS_BIS.md).
 
 ---
 
@@ -64,24 +66,24 @@ Detalles en [`pipeline_rf/docs/CALIBRACION_TRANSFERIDA_DE_RECREO.md`](./pipeline
 
 | Fase | Estado | Descripción |
 |:-:|:-:|---|
-| **F1** | ✅ | Calibración transferida de Recreo (constantes sistémicas vs sitio) |
+| **F1** | ✅ | Calibración basada en DB propia BIS (constantes sistémicas vs sitio) |
 | **F2** | ✅ | Antenas OpenCellID Piñero + escena Mitsuba desde Blender v18 |
-| **F3** | 🔄 | Ray tracing en Colab T4 (este repo + notebook) |
-| **F4** | ⏳ | Validación cruzada Recreo ↔ Piñero + banda de incertidumbre |
+| **F3** | ✅ | Ray tracing en Colab T4 · 6 mapas generados · 194k puntos |
+| **F4** | 🔄 | Calibración two-slope + banda de incertidumbre |
 | **F5** | ⏳ | Anexo técnico 30 slides A4 + PDF (terminología S1/S2) |
 
 ---
 
-## Outputs esperados de F3
+## Outputs esperados
 
 Al correr el notebook completo en Colab, se generan en `/content/outputs/`:
 
 | Archivo | Tamaño | Propósito |
 |---|:-:|---|
 | `heatmaps_sionna_pinero.png` | ~3 MB | Figura compuesta 3×2 (bandas × alturas) |
-| `mediciones_sionna_coverage_pinero.csv` | ~30 MB | Dataset espacial · input F4 |
+| `mediciones_sionna_coverage_pinero.csv` | ~14 MB | Raster espacial (194k puntos) |
 | `sionna_stats_pinero.json` | <1 KB | Medianas/percentiles por banda |
-| `rm_{B26,B28,B41}_z{1.5,7.5}.npy` | ~30 MB | Radio maps raw (checkpoint) |
+| `rm_{B26,B28,B41}_z{1.5,7.5}.npy` | ~12 MB | Radio maps raw (checkpoint) |
 
 Todo se empaqueta automáticamente en `PINERO_RF_outputs.zip` y se descarga
 por la celda final del notebook.
@@ -93,7 +95,7 @@ por la celda final del notebook.
 Los scripts en `pipeline_rf/scripts/` son el pipeline completo local:
 
 ```bash
-# 1. Enriquecer dataset antenas (necesita antenas_pinero_raw.csv de OpenCellID)
+# 1. Enriquecer dataset antenas
 python3 scripts/enrich_antenas_pinero.py
 
 # 2. Convertir geometría Blender → Mitsuba XML

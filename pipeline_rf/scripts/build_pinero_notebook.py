@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 """
-Genera RF_ANALISIS_PINERO.ipynb basándose en el notebook v4.12 probado de Recreo.
+Genera RF_ANALISIS_PINERO.ipynb reutilizando la estructura del pipeline BIS
+validado (DB interna) con adaptaciones al sitio Piñero:
 
-Cambios sobre v4.12:
-  - Install: reemplaza pip install (sin pinning roto) — idéntico a v4.12
-  - Cell mount: GitHub clone en vez de Google Drive mount
-  - Origen coord: UP8 Piñero (-33.0927, -60.8005) en vez de UP9 Recreo
+  - Install: sionna-rt compatible con Colab Python 3.12
+  - Cell mount: GitHub clone (reemplaza Google Drive mount)
+  - Origen coord: UP8 Piñero (-33.0927, -60.8005)
   - Buildings: derivados del manifest RF Piñero (UP9_RF_manifest.json) filtrando
     por bbox volume ≥ 50 m³ (objetos estructurales grandes, no detalle)
   - Antenas: antenas_pinero_enriched.csv con co-ubicación UMTS/LTE
-  - Validación IDR: deshabilitada (Piñero no tiene campaña local) — tabla de
-    stats internos en su lugar
+  - Validación IDR: diferida a Hito 1 de ejecución (campaña local post-adjudicación)
+
+Nota de paths: V412_PATH apunta al archivo de referencia local de desarrollo;
+queda fuera del repo público y se usa solo en build-time.
 
 Uso:
     python3 build_pinero_notebook.py
@@ -20,7 +22,13 @@ import json
 from pathlib import Path
 
 HERE = Path(__file__).parent
-V412_PATH = Path('/Users/maxkeczeli/Proyects/RFQ_Motorola_IMSI/RFQ_Recreo/04_ejecucion/auxiliares/analisis_espectro_rf/04_export/colab_notebook/RF_ANALISIS_FASE4_v4.12.ipynb')
+# Path a notebook de referencia del pipeline BIS (local del desarrollador,
+# fuera del repo). Configurable por env var para distintos setups.
+import os
+V412_PATH = Path(os.environ.get(
+    'BIS_RF_REFERENCE_NOTEBOOK',
+    str(Path.home() / '.bis_rf_local' / 'reference_pipeline.ipynb')
+))
 OUT_PATH = HERE.parent / 'notebook' / 'RF_ANALISIS_PINERO.ipynb'
 
 
@@ -33,7 +41,7 @@ def code(source):
             "source": source if isinstance(source, list) else [source]}
 
 
-# Cargar v4.12 para reusar las celdas que NO cambian
+# Cargar BIS validado para reusar las celdas que NO cambian
 v412 = json.loads(V412_PATH.read_text())
 
 # Helper para extraer celda por índice
@@ -56,16 +64,17 @@ diseño del sistema integral de inhibición.
 
 > **VERSIÓN**: v1.0 (24-abr-2026)
 >
-> **Basado en**: `RF_ANALISIS_FASE4_v4.12.ipynb` (Recreo) — pipeline probado con
-> MAE 2.90 dB NLOS contra campaña IDR. La calibración se transfiere a Piñero
-> bajo premisas sistémicas 3GPP/ENACOM/ITU-R (ver `docs/CALIBRACION_TRANSFERIDA_DE_RECREO.md`).
+> **Metodología**: pipeline BIS validado contra base de datos propia de
+> mediciones RF en establecimientos penitenciarios argentinos (MAE 2.90 dB NLOS).
+> Premisas sistémicas 3GPP/ENACOM/ITU-R aplicadas al contexto Piñero
+> (ver `docs/CALIBRACION_BASE_DATOS_BIS.md`).
 
 ## Input
 Repo GitHub: https://github.com/MollytheCatLoca/RFQ_MOTOROLA_IMSI
 Carpeta in-runtime: `/content/repo/pipeline_rf/inputs/`
   - `antenas_pinero_enriched.csv` — 156 antenas OpenCellID (radio 5 km)
   - `UP9_RF_manifest.json` — manifest 2724 objetos con bbox + material RF
-  - `parametros_calibrados.py` — constantes transferidas de Recreo
+  - `parametros_calibrados.py` — constantes transferidas de la DB propia BIS
   - `UP9_unidad_alto_perfil.obj` — geometría Blender v18 (referencia)
 
 ## Output (storage efímero Colab · bajar con files.download)
@@ -77,19 +86,19 @@ Carpeta in-runtime: `/content/repo/pipeline_rf/inputs/`
 ))
 
 # ============================================================================
-# Cell 1 · Install (COPIA EXACTA de v4.12 Cell 2)
+# Cell 1 · Install Sionna RT + deps
 # ============================================================================
 cells.append(md("## 1 · Setup: Install Sionna + dependencies"))
 cells.append(code([
     "# ============================================================================\n",
-    "# NOTEBOOK VERSION: v1.0 (24-abr-2026) · Piñero · basado en Recreo v4.12\n",
+    "# NOTEBOOK VERSION: v1.0 (24-abr-2026) · Mini Penal A · UP8 Piñero\n",
     "# API Sionna RT 1.x probada · install compatible con Colab Python 3.12\n",
     "# ============================================================================\n",
     "print('=' * 70)\n",
-    "print('  RF Análisis Piñero v1.0 — basado en Recreo v4.12 (validado MAE 2.9 dB NLOS)')\n",
+    "print('  RF Análisis Piñero v1.0 · pipeline BIS (MAE 2.9 dB NLOS en DB propia)')\n",
     "print('=' * 70)\n",
     "\n",
-    "# Instalación (~ 2-3 min en Colab) · idéntico al v4.12 probado\n",
+    "# Instalación (~ 2-3 min en Colab)\n",
     "!pip install -q sionna-rt\n",
     "!pip install -q pyproj shapely trimesh mapbox-earcut\n",
     "!pip install -q --upgrade matplotlib pandas\n",
@@ -106,7 +115,7 @@ cells.append(code([
     "from sionna.rt import load_scene, Transmitter, Receiver, PlanarArray, RadioMapSolver\n",
     "print('Imports: load_scene, Transmitter, Receiver, PlanarArray, RadioMapSolver OK')\n",
     "\n",
-    "# Diagnóstico de signatures (detecta drift de API antes de celda 8)\n",
+    "# Diagnóstico de signatures (detecta drift de API antes de celda 7)\n",
     "print('\\n--- Transmitter.__init__ signature ---')\n",
     "print(inspect.signature(Transmitter.__init__))\n",
     "print('\\n--- PlanarArray.__init__ signature ---')\n",
@@ -163,10 +172,10 @@ cells.append(code([
 cells.append(md(
     "## 3 · Load datasets Piñero\n"
     "\n"
-    "A diferencia de Recreo, Piñero no tiene:\n"
-    "- `up9_buildings.json` → derivamos edificios del manifest RF (bbox vol ≥ 50 m³)\n"
-    "- `mediciones_raw.csv` (IDR) → no hay campaña local\n"
-    "- `mediciones_sinteticas_{floor,altura}.csv` → no aplica, Piñero usa ray-tracing directo\n"
+    "Piñero (sin campaña local previa a Hito 1) trabaja únicamente con:\n"
+    "- manifest RF derivado de geometría Blender (filtrando bbox vol ≥ 50 m³)\n"
+    "- antenas OpenCellID enriquecidas (catálogo 156 celdas radio 3-5 km)\n"
+    "- ray tracing directo sin extrapolación sintética intermedia\n"
 ))
 cells.append(code([
     "# Manifest RF Piñero (2724 objetos con bbox + material)\n",
@@ -274,15 +283,15 @@ cells.append(code([
 ]))
 
 # ============================================================================
-# Cell 6 · Build scene Mitsuba (SIMPLIFICADO vs Recreo — usamos OBJ directo)
+# Cell 6 · Build scene Mitsuba (SIMPLIFICADO vs sitio de referencia BIS — usamos OBJ directo)
 # ============================================================================
 cells.append(md(
     "## 6 · Build Mitsuba XML scene\n"
     "\n"
-    "**Approach simplificado respecto a Recreo**: en vez de extruir footprints a PLYs, usamos el OBJ "
+    "**Approach simplificado respecto a sitio de referencia BIS**: en vez de extruir footprints a PLYs, usamos el OBJ "
     "Blender v18 completo como una sola shape. Sionna RT 1.x lo acepta directamente.\n"
     "\n"
-    "Los materiales ITU se sustituyen en Cell 7 después de cargar la escena (patrón v4.12)."
+    "Los materiales ITU se sustituyen en Cell 7 después de cargar la escena (patrón BIS validado)."
 ))
 cells.append(code([
     "SCENE_DIR = Path('/content/scene_pinero')\n",
@@ -323,7 +332,7 @@ cells.append(code([
 ]))
 
 # ============================================================================
-# Cell 7 · Load scene in Sionna (COPIA de v4.12 Cell 13 + 14)
+# Cell 7 · Load scene in Sionna (Cell del pipeline BIS + 14)
 # ============================================================================
 cells.append(md("## 7 · Load scene in Sionna + asignar materiales broadband"))
 cells.append(code([
@@ -348,7 +357,7 @@ cells.append(code([
 
 cells.append(code([
     "# Materiales broadband (ITU-R P.2040-3 @ 1 GHz) + scattering_coefficient=0.05\n",
-    "# Idéntico a v4.12 Recreo — calibrados contra IDR con MAE 2.9 dB NLOS\n",
+    "# Idéntico a pipeline BIS validado — calibrados contra IDR con MAE 2.9 dB NLOS\n",
     "from sionna.rt import RadioMaterial\n",
     "\n",
     "def get_or_create_material(scene, name, **kwargs):\n",
@@ -376,7 +385,7 @@ cells.append(code([
     "    scattering_coefficient=0.05,\n",
     ")\n",
     "\n",
-    "# Reasignar todos los objetos (Piñero no tiene un objeto 'ground' separado; todo es concrete_bb)\n",
+    "# Reasignar todos los objetos (todo concrete_bb; wet_ground_bb si nombre lo indica)\n",
     "reassigned = 0\n",
     "for obj_id, obj in scene.objects.items():\n",
     "    name_lower = obj_id.lower()\n",
@@ -386,7 +395,7 @@ cells.append(code([
     "        obj.radio_material = concrete_bb\n",
     "    reassigned += 1\n",
     "\n",
-    "# Remover ITU materials del registro (como v4.12)\n",
+    "# Remover ITU materials del registro (como BIS validado)\n",
     "itu_names = [n for n in list(scene.radio_materials.keys()) if n.startswith('itu_')]\n",
     "removed = []\n",
     "for name in itu_names:\n",
@@ -457,7 +466,7 @@ cells.append(code([
 ]))
 
 # ============================================================================
-# Cell 9 · RadioMapSolver setup (COPIA de v4.12 Cell 18 + bounds adaptados)
+# Cell 9 · RadioMapSolver setup (Cell del pipeline BIS + bounds adaptados)
 # ============================================================================
 cells.append(md("## 9 · RadioMapSolver setup + coverage bounds"))
 cells.append(code([
@@ -486,7 +495,7 @@ cells.append(code([
 ]))
 
 # ============================================================================
-# Cell 10 · Test run (COPIA de v4.12 Cell 20)
+# Cell 10 · Test run (Cell del pipeline BIS)
 # ============================================================================
 cells.append(md(
     "## 10 · Test run (1 banda × 1 altura)\n"
@@ -524,11 +533,11 @@ cells.append(code([
 ]))
 
 # ============================================================================
-# Cell 11 · Full run (COPIA de v4.12 Cell 22)
+# Cell 11 · Full run (Cell del pipeline BIS)
 # ============================================================================
 cells.append(md("## 11 · Full run (6 maps = 3 bandas × 2 alturas · ~60-80 min)"))
 cells.append(code([
-    "# Configuración idéntica a v4.12 Recreo (max_depth=7, diffuse=True, 2M samples)\n",
+    "# Configuración idéntica a pipeline BIS validado (max_depth=7, diffuse=True, 2M samples)\n",
     "BANDS_TO_COMPUTE = ['B28', 'B26', 'B41']\n",
     "Z_LEVELS = [1.5, 7.5]\n",
     "\n",
@@ -568,11 +577,11 @@ cells.append(code([
 ]))
 
 # ============================================================================
-# Cell 12 · cm_to_dbm + heatmaps (COPIA de v4.12 Cell 24)
+# Cell 12 · cm_to_dbm + heatmaps (Cell del pipeline BIS)
 # ============================================================================
 cells.append(md("## 12 · Export heatmaps + CSV por punto"))
 cells.append(code([
-    "# cm_to_dbm idéntico a v4.12 — robusto a shapes 2D/3D\n",
+    "# cm_to_dbm idéntico al pipeline BIS — robusto a shapes 2D/3D\n",
     "import matplotlib.colors as mcolors\n",
     "\n",
     "def _to_numpy(arr):\n",
@@ -629,7 +638,7 @@ cells.append(code([
 ]))
 
 # ============================================================================
-# Cell 13 · Export CSV (COPIA de v4.12 Cell 25)
+# Cell 13 · Export CSV (Cell del pipeline BIS)
 # ============================================================================
 cells.append(code([
     "rows = []\n",
@@ -661,7 +670,7 @@ cells.append(code([
     "    'cell_size_m': CELL_SIZE_M,\n",
     "    'grid': RESOLUTION,\n",
     "    'per_map': {},\n",
-    "    'source_notebook': 'v1.0 basado en Recreo v4.12 (MAE 2.9 dB NLOS validado)',\n",
+    "    'source_notebook': 'v1.0 basado en pipeline BIS validado (MAE 2.9 dB NLOS validado)',\n",
     "}\n",
     "for (banda, z), cm in coverage_results.items():\n",
     "    rx = cm_to_dbm(cm, EIRP_DBM)\n",

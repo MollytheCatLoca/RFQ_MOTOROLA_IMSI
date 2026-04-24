@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Parámetros calibrados del pipeline Recreo, transferidos a Piñero.
+Parámetros calibrados del pipeline BIS validado, transferidos a Piñero.
 
 Consumido por los scripts de F2 (antenas + Mitsuba) y F3 (Sionna RT).
 
 Separa las constantes en 3 grupos:
-  - SYSTEMIC_*  → transferibles directas desde Recreo (propiedades regulatorias/3GPP/ITU)
+  - SYSTEMIC_*  → transferibles directas desde DB propia BIS (propiedades regulatorias/3GPP/ITU)
   - SITE_PINERO_*  → específicas del sitio Piñero (clutter, antenas locales, polígono)
   - SWEEP_*  → rangos de sensibilidad para análisis de incertidumbre
 
@@ -13,12 +13,12 @@ Uso:
     from parametros_calibrados import EIRP_DBM, BAND_TO_TECH, BAND_FREQ_MHZ, \\
         NLOS_OFFSET_DB, CLUTTER_LOSS_DB_PINERO_FLOOR, SIONNA_SOLVER_CONFIG
 
-Referencia: ver CALIBRACION_TRANSFERIDA_DE_RECREO.md en esta misma carpeta.
+Referencia: ver CALIBRACION_BASE_DATOS_BIS.md en esta misma carpeta.
 """
 from __future__ import annotations
 
 # ============================================================================
-# GRUPO 1 · Constantes sistémicas (transferidas 1:1 desde Recreo)
+# GRUPO 1 · Constantes sistémicas (transferidas 1:1 desde DB propia BIS)
 # Fuentes: ENACOM Res. 302/2022, 3GPP TS 25.104, ITU-R M.2412, ITU-R P.2040-3
 # ============================================================================
 
@@ -51,9 +51,9 @@ SYSTEMIC_BAND_TO_TECH = {
     "B66": ["LTE"],
 }
 
-SYSTEMIC_PRIORITY_BANDS = ["B26", "B28", "B41"]  # Mismas prioritarias que Recreo para permitir comparativa
+SYSTEMIC_PRIORITY_BANDS = ["B26", "B28", "B41"]  # Mismas prioritarias que DB BIS para permitir comparativa
 
-SYSTEMIC_NLOS_OFFSET_DB = 41.2           # ITU-R M.2412 App B · calibrado empíricamente Recreo
+SYSTEMIC_NLOS_OFFSET_DB = 41.2           # ITU-R M.2412 App B · calibrado empíricamente DB BIS
 SYSTEMIC_LOS_NLOS_THRESHOLD_DB = 30.0    # |delta_raw| < 30 dB → LOS
 
 SYSTEMIC_ANTENNA_MISPOINTING_DB = 5.0    # Antenas urbanas apuntan al core, no al penal
@@ -87,20 +87,20 @@ SIONNA_SOLVER_CONFIG = {
 SIONNA_ANALYSIS_HEIGHTS_M = [1.5, 7.5]  # antropométrico + nivel pabellón 2
 
 # ============================================================================
-# GRUPO 3 · Constantes específicas Piñero (ajustadas del caso Recreo)
+# GRUPO 3 · Constantes específicas Piñero (ajustadas dcasos comparables)
 # ============================================================================
 
 # Sweep de sensibilidad para clutter loss. Central = recomendación base.
 SITE_PINERO_CLUTTER_FLOOR_DB = {
     "bajo":    15.0,    # peri-urbano, cota inferior
-    "central": 20.0,    # recomendación base (entre Recreo semi-rural y urbano denso)
-    "alto":    25.0,    # heredado Recreo (cota superior, conservador)
+    "central": 20.0,    # recomendación base (entre entorno semi-rural y urbano denso)
+    "alto":    25.0,    # heredado DB BIS (cota superior, conservador)
 }
 
 SITE_PINERO_CLUTTER_ALTURA_DB = {
-    "bajo":    7.0,     # LoS más clara que Recreo (menos arboleda alta)
+    "bajo":    7.0,     # LoS más clara que sitio de referencia BIS (menos arboleda alta)
     "central": 8.5,
-    "alto":    10.0,    # heredado Recreo
+    "alto":    10.0,    # heredado DB BIS
 }
 
 # Centroide del Mini Penal A - PENDIENTE extracción en F2 del manifest Blender
@@ -116,7 +116,7 @@ SITE_PINERO_ANTENNAS_CSV = "../F2_antenas_y_mitsuba/antenas_pinero_enriched.csv"
 # GRUPO 4 · MAE proyectado (para banda de incertidumbre reportada en F4/F5)
 # ============================================================================
 
-MAE_RECREO_VALIDATED = {
+MAE_sitio de referencia BIS_VALIDATED = {
     "analitico":              9.30,
     "sionna_raw":            31.41,
     "sionna_calibrado_global":  6.59,
@@ -170,7 +170,7 @@ if __name__ == "__main__":
     print(f"Clutter floor sweep: {SITE_PINERO_CLUTTER_FLOOR_DB}")
     print(f"Clutter altura sweep: {SITE_PINERO_CLUTTER_ALTURA_DB}")
     print(f"MAE esperado NLOS Piñero: {MAE_PINERO_PROJECTED['NLOS_low']}-{MAE_PINERO_PROJECTED['NLOS_high']} dB")
-    print(f"  (vs {MAE_RECREO_VALIDATED['sionna_calibrado_NLOS']} dB validado en Recreo)")
+    print(f"  (vs {MAE_sitio de referencia BIS_VALIDATED['sionna_calibrado_NLOS']} dB validado en sitio de referencia BIS)")
     print()
     print("Smoke tests:")
     assert is_band_compatible_with_tech("B26", "GSM"), "B26 debe soportar GSM"

@@ -7,12 +7,12 @@ Input:  antenas_pinero_raw.csv   (156 antenas desde OpenCellID, scraping DIC-202
 Output: antenas_pinero_enriched.csv  (mismo set + distancia/bearing al centroide
         UP8 Piñero + operador derivado de MNC + bandas LTE estimadas)
 
-Adaptado del enricher original de Recreo:
-  RFQ_Recreo/04_ejecucion/auxiliares/analisis_espectro_rf/01_parsing/enrich_antenas.py
+Adaptado del enricher original de la DB propia BIS:
+  DB propia BIS · 01_parsing/enrich_antenas.py
 
-Diferencias respecto a Recreo:
+Diferencias respecto a sitio de referencia BIS:
 - Centroide UP8 Piñero: -33.0927, -60.8005 (del mapa interactivo ANTENAS_DB DIC-2025)
-- Dataset más chico (156 antenas vs 398 de Recreo) porque el scraping original tenía
+- Dataset más chico (156 antenas (vs universo DB BIS)) porque el scraping original tenía
   radio menor en el query de Piñero. Para F3 esto puede requerir ampliar el query si
   queremos cobertura de las 3 telcos hasta 5 km.
 
@@ -37,7 +37,7 @@ HERE = Path(__file__).parent
 UP8_LAT = -33.09270383406942
 UP8_LON = -60.80047176165265
 
-# MNC → operador (Argentina, MCC 722) — heredado del enricher Recreo
+# MNC → operador (Argentina, MCC 722) — heredado del enricher BIS estándar
 OPERATORS = {
     7:   "Movistar",       # Telefónica Móviles Argentina
     10:  "Personal (old)", # Telecom Personal (MNC histórico)

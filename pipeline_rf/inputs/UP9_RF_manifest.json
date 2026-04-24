@@ -43648,8 +43648,8 @@
     }
   ],
   "scene": {
-    "name": "UP9_Recreo_Unidad_AltoPerfil",
-    "description": "Unidad Alto Perfil Pinero \u2014 4 minipenales 2x2 + muro + 7 torres + admin central",
+    "name": "MiniPenalA_UP8_Pinero",
+    "description": "Unidad Alto Perfil Pinero — 4 minipenales 2x2 + muro + 7 torres + admin central",
     "dimensions_m": {
       "E_W": 460,
       "N_S": 435

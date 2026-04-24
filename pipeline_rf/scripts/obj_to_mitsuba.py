@@ -275,7 +275,7 @@ def main():
             (bbox_min[2] + bbox_max[2]) / 2,
         ],
         "coordinate_system": "Right-handed, Z-up, meters (centered on compound origin)",
-        "sionna_rt_version_target": "2.0.1 (matching Recreo pipeline)",
+        "sionna_rt_version_target": "2.0.1 (DB propia BIS)",
     }
     OUT_STATS.write_text(json.dumps(stats, indent=2, ensure_ascii=False))
     print(f"  → {OUT_STATS.name}")

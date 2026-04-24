@@ -10,7 +10,7 @@
 
 - Fuente: scraping OpenCellID DIC-2025 (`RFQs_Motorola_DIC25/ANTENAS_DB/data/exports/pinero_antenas_20251225_202437.csv`).
 - Copia a F2 (`antenas_pinero_raw.csv`, 156 filas).
-- Enriquecimiento con `enrich_antenas_pinero.py` análogo al de Recreo:
+- Enriquecimiento con `enrich_antenas_pinero.py` análogo al de la DB propia BIS:
   - Centroide UP8: `-33.09270, -60.80047` (del mapa interactivo ANTENAS_DB)
   - Haversine distance + bearing deg respecto al centroide
   - MNC → operador (Personal 722/34, Movistar 722/7, Claro 722/310)
@@ -80,7 +80,7 @@ Antena más cercana: **Personal GSM** a **636 m** (bearing 4° — al norte). Co
 | N objetos | 2724 |
 | N materiales RF | 5 (concrete 92%, metal 3%, glass 3%, ground 1%) |
 
-Escena ~35% más grande que Recreo. Implica ~+30% tiempo de compute Colab (estimado 1.2 h vs 1 h Recreo).
+Escena ~35% más grande que sitios de referencia. Implica ~+30% tiempo de compute Colab (estimado 1.2 h vs referencia BIS).
 
 ---
 
@@ -103,7 +103,7 @@ Escena ~35% más grande que Recreo. Implica ~+30% tiempo de compute Colab (estim
 ## 4. Próximo paso (F3)
 
 Escribir `F3_sionna_pinero/RF_ANALISIS_PINERO.ipynb` clonando la estructura de
-`RFQ_Recreo/.../04_export/colab_notebook/RF_ANALISIS_FASE4_v4.12.ipynb` con:
+`DB propia BIS · /04_export/colab_notebook/pipeline BIS validado` con:
 
 1. Carga de `PINERO_UP8_scene.xml` y asignación de radio materials vía `material_mapping.json`.
 2. TX set desde `antenas_pinero_enriched.csv` con co-ubicación UMTS/LTE.

@@ -1,6 +1,6 @@
 # Análisis RF Virtual — Mini Penal A · UP N°8 Piñero
 
-> Proyecto auxiliar análogo al pipeline de Recreo (`RFQ_Recreo/04_ejecucion/auxiliares/analisis_espectro_rf/`),
+> Proyecto auxiliar análogo al pipeline BIS validado (`DB propia BIS · `),
 > aplicado a la geometría del Mini Penal A de Piñero.
 > Autor: Max Keczeli (BIS) · Arranque: 2026-04-24
 
@@ -18,12 +18,12 @@ narrativa técnica V1.1 (`08_Pliego_PROPUESTA_BIS_MOTOROLA/BIS_MOTOROLA_Sistema_
 
 ## 2. Particularidad metodológica
 
-A diferencia de Recreo (que tuvo campaña IDR con 144 markers de campo), Piñero **NO tiene
-mediciones locales**. La metodología aplicada usa los 144 markers de Recreo como **calibración
+A diferencia de la DB propia BIS (que tuvo campaña IDR con 144 markers de campo), Piñero **NO tiene
+mediciones locales**. La metodología aplicada usa los 144 markers de la DB propia BIS como **calibración
 base transferida** bajo justificación física/regulatoria documentada en F1.
 
-Consecuencia: el MAE esperado en Piñero es **mayor que el de Recreo** (+3-5 dB sobre el 2.90 dB
-NLOS de Recreo), y el anexo lo publica explícitamente como banda de incertidumbre ampliada.
+Consecuencia: el MAE esperado en Piñero es **mayor que el de la DB propia BIS** (+3-5 dB sobre el 2.90 dB
+NLOS de la DB propia BIS), y el anexo lo publica explícitamente como banda de incertidumbre ampliada.
 
 ---
 
@@ -33,15 +33,15 @@ NLOS de Recreo), y el anexo lo publica explícitamente como banda de incertidumb
 ┌─────────┐  ┌──────────────┐  ┌──────────┐  ┌───────────┐  ┌──────────┐
 │  F1     │→ │  F2          │→ │  F3      │→ │  F4       │→ │  F5      │
 │Calibr.  │  │Antenas+      │  │Sionna RT │  │Validación │  │Anexo 30  │
-│Recreo→  │  │Mitsuba XML   │  │Piñero    │  │cruzada    │  │slides+   │
+│sitio de referencia BIS→  │  │Mitsuba XML   │  │Piñero    │  │cruzada    │  │slides+   │
 │Piñero   │  │              │  │          │  │           │  │PDF       │
 └─────────┘  └──────────────┘  └──────────┘  └───────────┘  └──────────┘
    1d            1-2d             1-2d            1d            2d
 ```
 
-### F1 — Calibración transferida de Recreo ✅ en curso
-Documentar qué constantes del pipeline Recreo son transferibles a Piñero (propiedades sistémicas
-3GPP/ENACOM) y cuáles requieren ajuste por entorno local (clutter peri-Rosario vs semi-rural Recreo).
+### F1 — Calibración transferida de la DB propia BIS ✅ en curso
+Documentar qué constantes del pipeline BIS validado son transferibles a Piñero (propiedades sistémicas
+3GPP/ENACOM) y cuáles requieren ajuste por entorno local (clutter peri-Rosario vs entorno semi-rural).
 
 ### F2 — OpenCellID + Mitsuba
 - Query OpenCellID radio 3 km Piñero → CSV enriquecido.
@@ -49,18 +49,18 @@ Documentar qué constantes del pipeline Recreo son transferibles a Piñero (prop
 - Validar carga en Sionna local antes de Colab.
 
 ### F3 — Ray-tracing en Colab GPU
-- Notebook derivado de `RF_ANALISIS_FASE4_v4.12.ipynb` (Recreo).
+- Notebook derivado de `pipeline BIS validado` (DB interna).
 - 3 bandas prioritarias × 2 alturas = 6 mapas de cobertura.
 - Grid ~300-400k puntos, ~1 h compute T4.
 
 ### F4 — Validación cruzada y publicación de incertidumbre
-- Aplicar calibración two-slope LOS/NLOS heredada de Recreo.
-- Tabla paralela Recreo ↔ Piñero banda por banda.
+- Aplicar calibración two-slope LOS/NLOS heredada de la DB propia BIS.
+- Tabla paralela sitio de referencia BIS ↔ Piñero banda por banda.
 - Rango de incertidumbre ampliado defendido con referencias académicas.
 
-### F5 — Anexo de 30 slides estilo Recreo
-- Replicar estructura de `RFQ_Recreo/.../06_informe_final/slides/`.
-- Terminología **S1** (base medida IDR Recreo) / **S2** (extrapolación Piñero).
+### F5 — Anexo de 30 slides estilo sitio de referencia BIS
+- Replicar estructura de `DB propia BIS · /06_informe_final/slides/`.
+- Terminología **S1** (base medida IDR sitio de referencia BIS) / **S2** (extrapolación Piñero).
 - NO usar palabras "sintético" ni "Sionna" visibles al cliente.
 - PDF final ~40-60 MB.
 
@@ -76,7 +76,7 @@ Documentar qué constantes del pipeline Recreo son transferibles a Piñero (prop
 | CSV 2725 objetos clasificados | `../exports_rf/UP9_objects_rf.csv` | ✅ |
 | Plan previo Sionna | `../exports_rf/sionna_plan/PLAN_SIMULACION_RF.md` | ✅ (referencia) |
 | Planos PDF complejo Piñero | `../../01_fuentes/planos/*.pdf` (7 archivos) | ✅ |
-| Calibración IDR Recreo | `RFQ_Recreo/.../03_sintetico/*.py` + `05_analisis_rf/REPORTE_FASE5_ANALISIS.md` | ✅ |
+| Calibración IDR sitio de referencia BIS | `DB propia BIS · /03_sintetico/*.py` + `05_analisis_rf/REPORTE_FASE5_ANALISIS.md` | ✅ |
 
 ---
 
@@ -96,7 +96,7 @@ pero son geometría de **UP N°8 Piñero**. Para evitar confusión:
 |---|---|
 | Este anexo | `08_Pliego_PROPUESTA_BIS_MOTOROLA/BIS_MOTOROLA_Sistema_Inhibicion_Pinero_V1_1.docx` (referenciado como "Anexo Técnico RF del Mini Penal A") |
 | Este anexo | `09_Propuesta_Final_Motorola/slides/*.html` (referenciado como "Anexo Técnico" en deck comercial) |
-| Pipeline Recreo | Fuente de calibración, metodología y estilo visual |
+| pipeline BIS validado | Fuente de calibración, metodología y estilo visual |
 
 ---
 
