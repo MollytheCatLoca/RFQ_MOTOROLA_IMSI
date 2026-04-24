@@ -1,0 +1,35 @@
+{
+  "scene_name": "MiniPenalA_UP8_Pinero",
+  "source_obj": "exports_rf/UP9_unidad_alto_perfil.obj",
+  "n_objects_total": 2724,
+  "n_materials_rf": 5,
+  "material_distribution": {
+    "concrete": 2518,
+    "metal": 94,
+    "glass": 80,
+    "ground_dry": 31,
+    "ground_wet": 1
+  },
+  "bbox_min_m": [
+    -284.0,
+    -392.5,
+    -0.4
+  ],
+  "bbox_max_m": [
+    476.0,
+    342.5,
+    13.299999
+  ],
+  "dimensions_m": {
+    "x": 760.0,
+    "y": 735.0,
+    "z": 13.699999
+  },
+  "centroid_local_m": [
+    96.0,
+    -25.0,
+    6.4499995
+  ],
+  "coordinate_system": "Right-handed, Z-up, meters (centered on compound origin)",
+  "sionna_rt_version_target": "2.0.1 (matching Recreo pipeline)"
+}

@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+env/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Outputs generados por Colab (pesados, se bajan por zip)
+pipeline_rf/outputs/
+**/sionna_outputs/
+*.npy
+mediciones_sionna_coverage_pinero.csv
+heatmaps_sionna_pinero.png
+sionna_stats_pinero.json
+
+# Archivos temporales grandes
+*.zip
+!pipeline_rf/inputs/*.zip
+
+# Secrets (por si algún script lee tokens)
+.env
+.env.local
+credentials.json
+service_account.json
+
+# Logs
+*.log
+
+# Drafts que no van al repo
+_drafts/
+_notes/

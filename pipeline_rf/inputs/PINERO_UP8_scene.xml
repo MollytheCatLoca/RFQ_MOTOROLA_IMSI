@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Escena Mitsuba 3 · Mini Penal A · UP N°8 Piñero
+  Generada por obj_to_mitsuba.py · 2026-04-24
+
+  Uso en Sionna RT 2.x:
+      import sionna.rt as rt
+      scene = rt.load_scene("PINERO_UP8_scene.xml")
+      # Luego sobrescribir radio materials vía material_mapping.json
+
+  Dimensiones escena: 760.0 x 735.0 x 13.7 m
+  Centroide local: (96.00, -25.00, 6.45)
+  N objetos fuente: 2724 (distribución ver scene_stats.json)
+-->
+<scene version="2.1.0">
+
+    <!-- Integrador por defecto para preview visual (no usado por Sionna RT) -->
+    <default name="spp" value="64"/>
+    <integrator type="path">
+        <integer name="max_depth" value="3"/>
+    </integrator>
+
+    <!-- Cámara preview (orbital sobre centroide) -->
+    <sensor type="perspective">
+        <string name="fov_axis" value="smaller"/>
+        <float name="fov" value="45"/>
+        <transform name="to_world">
+            <lookat origin="582.4, -754.6, 47.5"
+                    target="96.0, -25.0, 6.4"
+                    up="0, 0, 1"/>
+        </transform>
+        <sampler type="independent">
+            <integer name="sample_count" value="64"/>
+        </sampler>
+        <film type="hdrfilm">
+            <integer name="width" value="1280"/>
+            <integer name="height" value="720"/>
+            <string name="pixel_format" value="rgb"/>
+        </film>
+    </sensor>
+
+    <!-- Iluminación ambiental simple (solo para preview) -->
+    <emitter type="constant">
+        <rgb name="radiance" value="1.0 1.0 1.0"/>
+    </emitter>
+
+    <!-- BSDFs visuales (Sionna sobrescribirá con radio materials ITU-R P.2040-3) -->
+    <bsdf type="diffuse" id="bsdf_concrete">
+        <rgb name="reflectance" value="0.624 0.604 0.557"/>
+    </bsdf>
+    <bsdf type="diffuse" id="bsdf_glass">
+        <rgb name="reflectance" value="0.302 0.420 0.522"/>
+    </bsdf>
+    <bsdf type="diffuse" id="bsdf_ground_dry">
+        <rgb name="reflectance" value="0.686 0.600 0.439"/>
+    </bsdf>
+    <bsdf type="diffuse" id="bsdf_ground_wet">
+        <rgb name="reflectance" value="0.361 0.318 0.235"/>
+    </bsdf>
+    <bsdf type="diffuse" id="bsdf_metal">
+        <rgb name="reflectance" value="0.702 0.702 0.725"/>
+    </bsdf>
+
+    <!-- Shape principal: importa el OBJ completo (2724 sub-objetos) -->
+    <shape type="obj" id="mini_penal_A_pinero">
+        <string name="filename" value="UP9_unidad_alto_perfil.obj"/>
+        <ref id="bsdf_concrete" name="bsdf"/>
+        <boolean name="face_normals" value="true"/>
+    </shape>
+
+</scene>
