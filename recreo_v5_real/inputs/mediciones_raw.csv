@@ -1,0 +1,127 @@
+measurement_id,zone,ms_id,ms_lat,ms_lon,ms_desc,banda,banda_nombre,banda_center_mhz,banda_dl_min_mhz,banda_dl_max_mhz,tech,marker,freq_mhz,power_dbm,confidence,is_ghost,out_of_band,is_usable_for_rf_model
+M001,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M1,2125.4,-83.8,ok,False,False,True
+M002,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M2,2118.0,-85.6,ok,False,False,True
+M003,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M3,2114.0,-78.4,low,False,False,True
+M004,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M4,2109.0,-86.9,ok,False,False,True
+M005,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M5,2104.0,-86.9,ok,False,True,True
+M006,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M6,1942.5,-87.3,ghost,True,True,False
+M007,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M1,2675.32,-80.7,ok,False,False,True
+M008,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M2,2665.0,-89.1,low,False,False,True
+M009,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M3,,,low,False,False,False
+M010,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M4,1947.0,-84.7,ghost,True,True,False
+M011,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M5,1910.0,-84.7,ghost,True,True,False
+M012,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M6,1942.5,-84.7,ghost,True,True,False
+M013,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M1,1985.075,-73.0,ok,False,False,True
+M014,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M2,1985.0,-85.3,low,False,False,True
+M015,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M3,1958.015,-88.4,low,False,False,True
+M016,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M4,1947.5,-86.2,ok,False,False,True
+M017,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M5,1995.0,-100.0,ok,False,False,True
+M018,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M6,1942.5,-86.4,ok,False,False,True
+M019,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M1,871.5,-73.2,ok,False,False,True
+M020,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M2,882.5,-78.4,ok,False,False,True
+M021,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M3,882.5,-77.2,low,False,False,True
+M022,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M4,884.5,-100.8,ok,False,False,True
+M023,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M5,864.5,-100.8,ok,False,False,True
+M024,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M6,866.5,-80.5,ok,False,False,True
+M025,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M1,772.02,-68.8,ok,False,False,True
+M026,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M2,762.34,-87.0,ok,False,False,True
+M027,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M3,787.0,-75.3,low,False,False,True
+M028,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M4,758.0,-100.1,ok,False,False,True
+M029,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M5,793.0,-101.3,ok,False,False,True
+M030,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M6,588.0,-100.5,ghost,True,True,False
+M031,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M1,2677.7,-88.3,ok,False,False,True
+M032,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M2,2657.745,-95.1,ok,False,False,True
+M033,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M3,2681.065,-95.5,low,False,False,True
+M034,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M4,2700.0,-95.1,ok,False,True,True
+M035,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M5,2700.0,-95.1,ok,False,True,True
+M036,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M6,2700.0,-95.1,ok,False,True,True
+M037,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M1,2124.3,-80.8,ok,False,False,True
+M038,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M2,2138.0,-89.2,ok,False,False,True
+M039,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M3,2115.0,-80.6,low,False,False,True
+M040,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M4,2105.5,-102.5,ok,False,True,True
+M041,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M5,2145.0,-99.1,ok,False,False,True
+M042,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M6,2200.0,-99.2,ok,False,False,True
+M043,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M1,1971.975,-99.4,ok,False,False,True
+M044,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M2,1970.0,-99.4,ok,False,False,True
+M045,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M3,1985.0,-101.1,low,False,False,True
+M046,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M4,1980.0,-77.7,ok,False,False,True
+M047,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M5,1966.05,-83.9,ok,False,False,True
+M048,Frontal,MS2,-31.509433,-60.724133,"Frontal (W, fuera del perímetro)",B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M6,1955.05,-85.7,ok,False,False,True
+M049,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M1,2110.0,-95.2,ok,False,False,True
+M050,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M2,2114.0,-85.8,ok,False,False,True
+M051,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M3,2114.0,-93.8,low,False,False,True
+M052,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M4,2119.0,-73.9,ok,False,False,True
+M053,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M5,2130.0,-94.7,ok,False,False,True
+M054,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M6,2700.0,-96.8,ghost,True,True,False
+M055,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M1,2677.175,-85.3,ok,False,False,True
+M056,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M2,2661.038,-89.2,ok,False,False,True
+M057,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M3,,-99.1,low,False,False,False
+M058,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M4,2679.0,-87.1,ok,False,False,True
+M059,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M5,2694.0,-100.9,ok,False,True,True
+M060,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B7,2600 FDD,2655.0,2620.0,2690.0,LTE,M6,2145.0,-99.6,ghost,True,True,False
+M061,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M1,1929.5,-101.5,ok,False,False,True
+M062,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M2,1939.025,-93.6,ok,False,False,True
+M063,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M3,,,low,False,False,False
+M064,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M4,1955.0,-88.7,ok,False,False,True
+M065,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M5,1962.5,-90.7,ok,False,False,True
+M066,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M6,1986.05,-81.0,ok,False,False,True
+M067,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M1,866.55,-59.4,ok,False,False,True
+M068,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M2,865.7,-74.8,ok,False,False,True
+M069,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M3,875.7,-80.9,low,False,False,True
+M070,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M4,880.0,-82.6,ok,False,False,True
+M071,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M5,891.05,-86.9,ok,False,False,True
+M072,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B26,850 ext,876.5,859.0,894.0,LTE,M6,884.0,-103.4,ok,False,False,True
+M073,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M1,750.0,-101.0,ok,False,True,True
+M074,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M2,803.0,-102.5,ok,False,False,True
+M075,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M3,766.6,-97.0,low,False,False,True
+M076,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M4,769.76,-70.4,ok,False,False,True
+M077,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M5,780.0,-80.0,ok,False,False,True
+M078,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B28,APT 700,780.5,758.0,803.0,LTE,M6,792.0,-77.8,ok,False,False,True
+M079,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M1,2557.9,-63.4,ok,False,False,True
+M080,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M2,2542.0,-87.0,ok,False,False,True
+M081,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M3,2658.0,-89.3,low,False,False,True
+M082,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M4,2661.9,-70.0,ok,False,False,True
+M083,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M5,2671.0,-67.7,low,False,False,True
+M084,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B41,2600 TDD,2593.0,2496.0,2690.0,LTE,M6,2691.0,-82.0,ok,False,False,True
+M085,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M1,2110.0,-97.5,ok,False,False,True
+M086,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M2,1995.0,-100.2,ghost_outband,True,True,False
+M087,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M3,2115.504,-85.7,low,False,False,True
+M088,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M4,2128.504,-82.2,ok,False,False,True
+M089,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M5,2138.504,-91.1,ok,False,False,True
+M090,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B66,AWS ext,2155.0,2110.0,2200.0,LTE,M6,2200.0,-100.4,ok,False,False,True
+M091,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M1,1972.25,,off,False,False,False
+M092,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M2,1984.725,-99.3,ok,False,False,True
+M093,Fondo,MS1,-31.509889,-60.7189,"Exterior Back (E, fuera del perímetro)",B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M3,1976.05,-99.5,ok,False,False,True
+M094,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M1,2123.8,-88.8,ok,False,False,True
+M095,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M2,2113.0,-93.1,low,False,False,True
+M096,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M3,2119.0,-94.5,low,False,False,True
+M097,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M4,2107.0,-96.9,ok,False,True,True
+M098,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M5,2143.0,-96.3,ok,False,False,True
+M099,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B4,AWS 2100,2132.5,2110.0,2155.0,LTE,M6,2195.0,-99.3,ghost_outband,True,True,False
+M100,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M1,1969.5,-82.0,ok,False,False,True
+M101,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M2,1957.92,-95.8,ok,False,False,True
+M102,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B25,PCS 1900 ext,1962.5,1930.0,1995.0,LTE,M3,1961.5,-88.8,low,False,False,True
+M103,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B26,850 ext,876.5,859.0,894.0,LTE,M1,866.555,-73.2,ok,False,False,True
+M104,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B26,850 ext,876.5,859.0,894.0,LTE,M2,873.555,-84.2,ok,False,False,True
+M105,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B26,850 ext,876.5,859.0,894.0,LTE,M3,,-86.5,low,False,False,False
+M106,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B26,850 ext,876.5,859.0,894.0,LTE,M4,887.5,-87.5,ok,False,False,True
+M107,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B26,850 ext,876.5,859.0,894.0,LTE,M5,893.8,-102.0,ok,False,False,True
+M108,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B26,850 ext,876.5,859.0,894.0,LTE,M6,863.5,-101.2,ok,False,False,True
+M109,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B28,APT 700,780.5,758.0,803.0,LTE,M1,769.02,-88.5,ok,False,False,True
+M110,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B28,APT 700,780.5,758.0,803.0,LTE,M2,760.2,-92.5,ok,False,False,True
+M111,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B28,APT 700,780.5,758.0,803.0,LTE,M3,760.0,-86.2,low,False,False,True
+M112,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B28,APT 700,780.5,758.0,803.0,LTE,M4,754.0,-103.7,ok,False,True,True
+M113,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B28,APT 700,780.5,758.0,803.0,LTE,M5,794.0,-101.1,ok,False,False,True
+M114,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B28,APT 700,780.5,758.0,803.0,LTE,M6,638.0,-101.2,ghost,True,True,False
+M115,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B66,AWS ext,2155.0,2110.0,2200.0,LTE,M1,2124.7,-93.1,ok,False,False,True
+M116,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B66,AWS ext,2155.0,2110.0,2200.0,LTE,M2,2121.0,-93.6,ok,False,False,True
+M117,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B66,AWS ext,2155.0,2110.0,2200.0,LTE,M3,2137.7,-96.7,low,False,False,True
+M118,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B66,AWS ext,2155.0,2110.0,2200.0,LTE,M4,2155.0,-99.2,ok,False,False,True
+M119,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B66,AWS ext,2155.0,2110.0,2200.0,LTE,M5,2116.0,-97.4,ok,False,False,True
+M120,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B66,AWS ext,2155.0,2110.0,2200.0,LTE,M6,2700.0,-98.7,ghost,True,True,False
+M121,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M1,1986.05,-82.5,ok,False,False,True
+M122,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M2,1958.5,-98.7,ok,False,False,True
+M123,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M3,1933.0,-89.1,low,False,False,True
+M124,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M4,1980.0,-97.0,ok,False,False,True
+M125,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M5,1975.0,-100.0,ok,False,False,True
+M126,Celdas,MS3,-31.509878,-60.721272,Interior (módulo de celdas),B2,PCS 1900,1962.5,1930.0,1990.0,LTE,M6,1980.0,-99.8,ok,False,False,True
